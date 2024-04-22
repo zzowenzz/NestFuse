@@ -36,7 +36,7 @@ def run_demo(nest_model, infrared_path, visible_path, output_path_root, index, f
 	img_vi, h, w, c = utils.get_test_image(visible_path)
 
 	# dim = img_ir.shape
-	if c is 1:
+	if c == 1:
 		if args.cuda:
 			img_ir = img_ir.cuda()
 			img_vi = img_vi.cuda()

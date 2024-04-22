@@ -4,7 +4,8 @@ import numpy as np
 import torch
 from PIL import Image
 from args_fusion import args
-from scipy.misc import imread, imsave, imresize
+# from scipy.misc import imread, imsave, imresize
+import imageio
 import matplotlib as mpl
 
 from os import listdir
@@ -97,12 +98,12 @@ def load_dataset(image_path, BATCH_SIZE, num_imgs=None):
 
 def get_image(path, height=256, width=256, flag=False):
     if flag is True:
-        image = imread(path, mode='RGB')
+        image = imageio.imread(path, mode='RGB')
     else:
-        image = imread(path, mode='L')
+        image = imageio.imread(path, mode='L')
 
     if height is not None and width is not None:
-        image = imresize(image, [height, width], interp='nearest')
+        image = image.resize(image, [height, width], interp='nearest')
     return image
 
 
@@ -112,9 +113,9 @@ def get_test_image(paths, height=None, width=None, flag=False):
         paths = [paths]
     images = []
     for path in paths:
-        image = imread(path, mode='L')
+        image = imageio.imread(path, mode='L')
         if height is not None and width is not None:
-            image = imresize(image, [height, width], interp='nearest')
+            image = image.resize(image, [height, width], interp='nearest')
 
         base_size = 512
         h = image.shape[0]
@@ -201,7 +202,8 @@ def save_image_test(img_fusion, output_path):
     if img_fusion.shape[2] == 1:
         img_fusion = img_fusion.reshape([img_fusion.shape[0], img_fusion.shape[1]])
     # 	img_fusion = imresize(img_fusion, [h, w])
-    imsave(output_path, img_fusion)
+    # imsave(output_path, img_fusion)
+    imageio.imwrite(output_path, img_fusion)
 
 
 def get_train_images(paths, height=256, width=256, flag=False):
